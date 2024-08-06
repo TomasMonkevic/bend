@@ -13,7 +13,7 @@ Final test is to run the test program
 
 https://github.com/HigherOrderCO/Bend
 
-# Usefull #
+# Useful #
 
 mkdir ~/hvmtmp
 cd ~/hvmtmp
