@@ -24,3 +24,10 @@ cd vendor/hvm
 Open and edit `src/hvm.cu`. Reduce L_NODE_LEN and L_VARS_LEN
 cd ~/hvmtmp/vendor/hvm
 cargo install --path .
+
+# Struggles #
+
+Running on CUDA (CUDA on WSL)
+    - No cuda found
+    - Invalid arguments (something related to the HVM memory config being too high on lower GPUs because the config was optimized for GTX 4090)
+    - Running benchmark on GPU gives 2x lower performance than on 4 thread CPU
