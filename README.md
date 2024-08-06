@@ -12,3 +12,15 @@ Final test is to run the test program
 # Bend #
 
 https://github.com/HigherOrderCO/Bend
+
+# Usefull #
+
+mkdir ~/hvmtmp
+cd ~/hvmtmp
+cargo init
+cargo add hvm@=2.0.21 //or newer
+cargo vendor vendor
+cd vendor/hvm
+Open and edit `src/hvm.cu`. Reduce L_NODE_LEN and L_VARS_LEN
+cd ~/hvmtmp/vendor/hvm
+cargo install --path .
