@@ -44,7 +44,7 @@ def allSpringArrengments(record):
     when contains(r, '?') > 0:
       tree = ![fork(replaceFirst(r, '?', '.')), fork(replaceFirst(r, '?', '#'))] #Is a tree needed here? maybe list is enough?
     else:
-      tree = r 
+      tree = !r 
   return tree
 
 def calcGroupsOfDamagedSpringsInternal(record, prev, acc):
@@ -65,25 +65,20 @@ def calcGroupsOfDamagedSpringsInternal(record, prev, acc):
       return List/reverse(acc)
 
 def calcGroupsOfDamagedSprings(record):
-  # with IO:
-  #   * <- IO/print(record)
   return calcGroupsOfDamagedSpringsInternal(record, ' ', [])
 
 def possibleSpringsArrengmentCount(record, groupsOfDamagedSprings):
   all = allSpringArrengments(record)
   fold all:
     case Tree/Node:
-      return ![all.left, all.right]
-      #return all.left + all.right
+      return all.left + all.right
     case Tree/Leaf:
-      return calcGroupsOfDamagedSprings(all.value)
-      # if equals(calcGroupsOfDamagedSprings(all.value), groupsOfDamagedSprings) > 0:
-      #   return 1
-      # else:
-      #   return 0
+      if equals(calcGroupsOfDamagedSprings(all.value), groupsOfDamagedSprings) > 0:
+        return 1
+      else:
+        return 0
 
 def main():
-  #return calcGroupsOfDamagedSprings("#.##.###")
   input = TEST_INPUT
   fold input:
     case List/Cons:
@@ -94,9 +89,9 @@ def main():
 
 TEST_INPUT = [
     ("???.###", [1,1,3]),
-    # (".??..??...?##.", [1,1,3]),
-    # ("?#?#?#?#?#?#?#?", [1,3,1,6]),
-    # ("????.#...#...", [4,1,1]),
-    # ("????.######..#####.", [1,6,5]),
-    # ("?###????????", [3,2,1])
+    (".??..??...?##.", [1,1,3]),
+    ("?#?#?#?#?#?#?#?", [1,3,1,6]),
+    ("????.#...#...", [4,1,1]),
+    ("????.######..#####.", [1,6,5]),
+    ("?###????????", [3,2,1])
   ]
