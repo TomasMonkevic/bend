@@ -8,4 +8,4 @@ def Sum(start, target):
     return left + right
 
 def main():
-  return Sum(1, 1_000_000)
+  return Sum(1, 5_000_000)
