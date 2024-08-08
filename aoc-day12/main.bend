@@ -74,6 +74,8 @@ def calcGroupsOfDamagedSpringsInternal(record, prev, acc):
 def calcGroupsOfDamagedSprings(record):
   return calcGroupsOfDamagedSpringsInternal(record, ' ', [])
 
+# Time complex: not quite shure how bend work but to traverse the whole tree time complexity is O(2^n) and probably should be parrelized because usage of bend
+# Space complex: O(2^n) avg size = 2^50 * ~100 bytes = ~157 PB :(
 def possibleSpringsArrengmentCount(recordLine):
   (record, groupsOfDamagedSprings) = recordLine
   all = allSpringArrengments(record)
@@ -85,6 +87,20 @@ def possibleSpringsArrengmentCount(recordLine):
         return 1
       else:
         return 0
+
+# Time complex: O(2^n) not sure if this will be parallelized
+# Space complex: O(n)
+def possibleSpringsArrengmentCountSO(recordLine):
+  (record, groupsOfDamagedSprings) = recordLine
+  if contains(record, '?') == 0:
+    if equals(calcGroupsOfDamagedSprings(record), groupsOfDamagedSprings) > 0:
+      return 1
+    else:
+      return 0
+  else:
+    damagedSpring = possibleSpringsArrengmentCountSO((replaceFirst(record, '?', '#'), groupsOfDamagedSprings))
+    operationalSpring = possibleSpringsArrengmentCountSO((replaceFirst(record, '?', '.'), groupsOfDamagedSprings))
+    return damagedSpring + operationalSpring
 
 # A faster sum algorithm could be used that divides the list
 # Also use BigInt
@@ -130,7 +146,7 @@ def main():
   # return sum(forEachPossibleSpringsArrengmentCount(MAIN_INPUT))
   # Part 2
   # return forEachPossibleSpringsArrengmentCount(unfoldRecords(TEST_INPUT))
-  return possibleSpringsArrengmentCount(unfoldRecord(("?###????????", [3,2,1]))) # Out of memory avg size = 2^50 * ~100 bytes = ~157 PB :(
+  return possibleSpringsArrengmentCountSO(unfoldRecord(("?###????????", [3,2,1])))
 
 TEST_INPUT = [
     ("???.###", [1,1,3]),
