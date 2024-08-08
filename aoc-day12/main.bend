@@ -9,6 +9,13 @@ def contains(str, char):
     case String/Nil:
       return 0
 
+def concat(str1, str2):
+  match str1:
+    case String/Cons:
+      return String/Cons(str1.head, concat(str1.tail, str2))
+    case String/Nil:
+      return str2
+
 def replaceFirst(str, target, src):
   match str:
     case String/Cons:
@@ -67,7 +74,8 @@ def calcGroupsOfDamagedSpringsInternal(record, prev, acc):
 def calcGroupsOfDamagedSprings(record):
   return calcGroupsOfDamagedSpringsInternal(record, ' ', [])
 
-def possibleSpringsArrengmentCount(record, groupsOfDamagedSprings):
+def possibleSpringsArrengmentCount(recordLine):
+  (record, groupsOfDamagedSprings) = recordLine
   all = allSpringArrengments(record)
   fold all:
     case Tree/Node:
@@ -93,13 +101,36 @@ def sum(list):
 def forEachPossibleSpringsArrengmentCount(input):
   fold input:
     case List/Cons:
-      (record, groupsOfDamagedSprings) = input.head
-      return List/concat([possibleSpringsArrengmentCount(record, groupsOfDamagedSprings)], input.tail)
+      return List/concat([possibleSpringsArrengmentCount(input.head)], input.tail)
+    case List/Nil:
+      return input
+
+def unfoldRecordInternal(recordLine, depth, acc):
+  if depth > 0:
+    (ar, ag) = acc
+    (record, groupsOfDamagedSprings) = recordLine
+    foo = concat(ar, concat("?", record))
+    bar = List/concat(ag, groupsOfDamagedSprings)
+    return unfoldRecordInternal(recordLine, depth - 1, (foo, bar))
+  else:
+    return acc
+
+def unfoldRecord(recordLine):
+  return unfoldRecordInternal(recordLine, 4, recordLine)
+
+def unfoldRecords(input):
+  fold input:
+    case List/Cons:
+      return List/concat([unfoldRecord(input.head)], input.tail)
     case List/Nil:
       return input
 
 def main():
-  return sum(forEachPossibleSpringsArrengmentCount(TEST_INPUT))
+  # Part 1
+  # return sum(forEachPossibleSpringsArrengmentCount(MAIN_INPUT))
+  # Part 2
+  # return forEachPossibleSpringsArrengmentCount(unfoldRecords(TEST_INPUT))
+  return possibleSpringsArrengmentCount(unfoldRecord(("?###????????", [3,2,1]))) # Out of memory avg size = 2^50 * ~100 bytes = ~157 PB :(
 
 TEST_INPUT = [
     ("???.###", [1,1,3]),
