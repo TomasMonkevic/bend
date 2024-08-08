@@ -78,14 +78,28 @@ def possibleSpringsArrengmentCount(record, groupsOfDamagedSprings):
       else:
         return 0
 
-def main():
-  input = MAIN_INPUT
+# A faster sum algorithm could be used that divides the list
+# Also use BigInt
+def sumInternal(list, acc):
+  match list:
+    case List/Cons:
+      return sumInternal(list.tail, acc + list.head)
+    case List/Nil:
+      return acc
+
+def sum(list):
+  return sumInternal(list, 0)
+
+def forEachPossibleSpringsArrengmentCount(input):
   fold input:
     case List/Cons:
       (record, groupsOfDamagedSprings) = input.head
       return List/concat([possibleSpringsArrengmentCount(record, groupsOfDamagedSprings)], input.tail)
     case List/Nil:
       return input
+
+def main():
+  return sum(forEachPossibleSpringsArrengmentCount(TEST_INPUT))
 
 TEST_INPUT = [
     ("???.###", [1,1,3]),
