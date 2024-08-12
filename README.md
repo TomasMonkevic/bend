@@ -30,10 +30,10 @@ cargo install --path .
 Running on CUDA (CUDA on WSL)
     - No cuda found
     - Invalid arguments (something related to the HVM memory config being too high on lower GPUs because the config was optimized for GTX 4090)
-    - Running benchmark on GPU gives 2x lower performance than on 4 thread CPU
+    - Running benchmark on GPU gives 2x lower performance than on 4 thread CPU. Bend only works with 4090, but should work on 3 series gpu with L1 cache non less than 96kB
 
 Built in functions:
-    - IO syntax is detected but doesn't work. Almost no examples with IO and the existing ones also don't work
+    - IO syntax is detected but doesn't work. Almost no examples with IO and the existing ones also don't work. This should work only on run-c.
     - Importing syntax isn't even detected and doesn't work
     - Limited mount of bultin functions. No funtions like parse(string) -> int
     - Cannot debug because can't event print values
